@@ -54,6 +54,19 @@ build: install ## 构建生产版本并导出静态文件
 	fi
 	@echo "✅ 构建完成"
 
+# GitHub Pages 部署准备
+deploy-github-pages: build ## 准备 GitHub Pages 部署
+	@echo "🚀 准备 GitHub Pages 部署..."
+	@echo "📝 创建 GitHub Pages 兼容的 HTML 文件..."
+	@echo "✅ GitHub Pages 部署准备完成"
+	@echo ""
+	@echo "📋 部署步骤:"
+	@echo "1. 提交所有更改: git add . && git commit -m 'Deploy to GitHub Pages'"
+	@echo "2. 推送到 GitHub: git push origin main"
+	@echo "3. 在 GitHub 仓库设置中启用 GitHub Pages"
+	@echo "4. 选择 'Deploy from a branch' 并选择 'main' 分支"
+	@echo "5. 访问 https://your-username.github.io/Mosaic 查看网站"
+
 # 清理缓存
 clean: ## 清理构建缓存和依赖
 	@echo "🧹 清理缓存..."

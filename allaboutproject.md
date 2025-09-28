@@ -195,7 +195,32 @@ make commit-build    # 提交构建产物到 Git
 ```
 
 ### GitHub Pages 部署
-项目配置了自动部署，推送到 main 分支即可自动部署到 GitHub Pages。
+项目已配置符合 GitHub Pages 规范的结构：
+
+#### 目录结构
+```
+Mosaic/
+├── assets/                    # GitHub Pages 静态资源
+│   ├── css/
+│   │   └── style.scss         # Jekyll SCSS 样式文件
+│   └── js/
+│       └── site.js           # 站点 JavaScript
+├── index.html                 # 主页面（GitHub Pages 兼容）
+├── _config.yml               # Jekyll 配置文件
+└── .github/workflows/
+    └── deploy.yml            # GitHub Actions 部署配置
+```
+
+#### 部署方式
+1. **自动部署**: 推送到 main 分支自动触发 GitHub Actions
+2. **手动部署**: 使用 `make deploy-github-pages` 命令
+3. **访问地址**: `https://your-username.github.io/Mosaic`
+
+#### CSS/JS 文件规范
+- CSS 文件放在 `assets/css/` 目录下
+- JS 文件放在 `assets/js/` 目录下
+- 使用 Jekyll 的 `style.scss` 格式支持变量和导入
+- HTML 中引用路径为 `/assets/css/style.css` 和 `/assets/js/site.js`
 
 ### 项目状态
 ✅ 已完成的功能：

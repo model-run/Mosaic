@@ -1,0 +1,75 @@
+# Jekyll configuration for GitHub Pages
+title: ModelRun.io
+description: 模型运行参数生成与部署助手
+author: ModelRun.io Team
+email: team@modelrun.io
+url: https://your-username.github.io
+baseurl: /Mosaic
+
+# GitHub Pages settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Build settings
+source: .
+destination: _site
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - web/
+  - Makefile
+  - allaboutproject.md
+  - LICENSE
+
+# Include in site
+include:
+  - assets/
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "docs"
+    values:
+      layout: "doc"
+
+# SEO
+seo:
+  type: "WebSite"
+  name: "ModelRun.io"
+  description: "模型运行参数生成与部署助手"
+  url: "https://your-username.github.io/Mosaic"
+  image: "/web/public/logo.png"
+  twitter:
+    creator: "@modelrunio"
+    site: "@modelrunio"
+  facebook:
+    app_id: "your-facebook-app-id"
+    publisher: "https://www.facebook.com/modelrunio"
+  google:
+    site_verification: "your-google-verification-code"

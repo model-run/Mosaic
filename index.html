@@ -1,1 +1,186 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="image" href="./web/public/logo.png"/><link rel="stylesheet" href="./_next/static/css/f595abb9c08fbb9f.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="./_next/static/chunks/webpack-006bef0f9ed98912.js"/><script src="./_next/static/chunks/d9c6eade-19a9d45fa8585ccf.js" async=""></script><script src="./_next/static/chunks/749-67ed4fe1fc0a5263.js" async=""></script><script src="./_next/static/chunks/main-app-8382999b3ca5f538.js" async=""></script><script src="./_next/static/chunks/app/page-9f2e930a0e8e126c.js" async=""></script><title>ModelRun.io - 模型运行参数生成与部署助手</title><meta name="description" content="在不同显卡、推理引擎下，快速生成 Docker 启动命令，并展示模型的最小运行规格、CUDA 版本要求及推荐配置。"/><meta name="author" content="ModelRun.io Team"/><meta name="keywords" content="AI模型,Docker,GPU,推理引擎,vLLM,TensorRT,LLaMA,ChatGLM"/><meta name="robots" content="index, follow"/><meta property="og:title" content="ModelRun.io - 模型运行参数生成与部署助手"/><meta property="og:description" content="快速生成 AI 模型的 Docker 启动命令，支持多种 GPU 和推理引擎"/><meta property="og:locale" content="zh_CN"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="ModelRun.io - 模型运行参数生成与部署助手"/><meta name="twitter:description" content="快速生成 AI 模型的 Docker 启动命令，支持多种 GPU 和推理引擎"/><script src="./_next/static/chunks/polyfills-42372ed130431b0a.js" noModule=""></script></head><body class="font-sans"><div class="min-h-screen bg-gray-50"><header class="bg-white shadow-sm border-b border-gray-200"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex items-center justify-between h-16"><div class="flex items-center"><div class="flex-shrink-0 flex items-center"><img src="./web/public/logo.png" alt="ModelRun.io Logo" class="h-10 w-10 mr-3"/><h1 class="text-2xl font-bold text-gray-900">ModelRun.io</h1></div><div class="ml-4"><p class="text-sm text-gray-500">模型运行参数生成与部署助手</p></div></div><div class="flex items-center space-x-4"><a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-gray-700"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg></a></div></div></div></header><main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="space-y-6"><div class="card"><h2 class="text-xl font-semibold text-gray-900 mb-6">配置选择</h2><div class="space-y-6"><div class="relative"><label class="block text-sm font-medium text-gray-700 mb-2">选择 GPU</label><button type="button" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-left focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"><span class="text-gray-500">请选择 GPU...</span><svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></div><div class="relative"><label class="block text-sm font-medium text-gray-700 mb-2">选择模型</label><button type="button" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-left focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"><span class="text-gray-500">请选择模型...</span><svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></div><div class="relative"><label class="block text-sm font-medium text-gray-700 mb-2">选择推理引擎</label><button type="button" class="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-left focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"><span class="text-gray-500">请选择推理引擎...</span><svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></button></div></div></div></div><div class="space-y-6"><div class="card"><div class="space-y-6"><div class="flex items-center justify-between"><h3 class="text-lg font-medium text-gray-900">生成的 Docker 命令</h3><button disabled="" class="btn-primary disabled:opacity-50 disabled:cursor-not-allowed">生成命令</button></div><div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4"><p class="text-yellow-800 text-sm">请先选择 GPU、模型和推理引擎，然后点击“生成命令”按钮</p></div></div></div><div class="card"><h3 class="text-lg font-semibold text-gray-900 mb-4">功能特性</h3><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg></div></div><div><h4 class="font-medium text-gray-900">显卡识别</h4><p class="text-sm text-gray-500">自动匹配 GPU 和推理引擎</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg></div></div><div><h4 class="font-medium text-gray-900">参数模板</h4><p class="text-sm text-gray-500">内置主流模型配置</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v18a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h2a1 1 0 011 1v3m0 0h8"></path></svg></div></div><div><h4 class="font-medium text-gray-900">Docker 命令</h4><p class="text-sm text-gray-500">一键生成启动命令</p></div></div><div class="flex items-start space-x-3"><div class="flex-shrink-0"><div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center"><svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></div></div><div><h4 class="font-medium text-gray-900">规格对照</h4><p class="text-sm text-gray-500">显存需求和 CUDA 版本</p></div></div></div></div></div></div></main><footer class="bg-white border-t border-gray-200 mt-16"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"><div class="text-center text-gray-500 text-sm"><p>© 2024 ModelRun.io - 模型运行参数生成与部署助手</p><p class="mt-2">支持主流 GPU 和推理引擎，让 AI 模型部署更简单</p></div></div></footer></div><script src="./_next/static/chunks/webpack-006bef0f9ed98912.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,"1:HL[\"./_next/static/css/f595abb9c08fbb9f.css\",\"style\"]\n"])</script><script>self.__next_f.push([1,"2:I[3177,[],\"\"]\n4:I[4686,[],\"ClientPageRoot\"]\n5:I[2649,[\"931\",\"static/chunks/app/page-9f2e930a0e8e126c.js\"],\"default\",1]\n6:I[3385,[],\"\"]\n7:I[846,[],\"\"]\n9:I[4522,[],\"\"]\na:[]\n0:[\"$\",\"$L2\",null,{\"buildId\":\"0VRsCX3t46G_f2-us_TGg\",\"assetPrefix\":\".\",\"urlParts\":[\"\",\"\"],\"initialTree\":[\"\",{\"children\":[\"__PAGE__\",{}]},\"$undefined\",\"$undefined\",true],\"initialSeedData\":[\"\",{\"children\":[\"__PAGE__\",{},[[\"$L3\",[\"$\",\"$L4\",null,{\"props\":{\"params\":{},\"searchParams\":{}},\"Component\":\"$5\"}],null],null],null]},[[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"./_next/static/css/f595abb9c08fbb9f.css\",\"precedence\":\"next\",\"crossOrigin\":\"$undefined\"}]],[\"$\",\"html\",null,{\"lang\":\"zh-CN\",\"children\":[\"$\",\"body\",null,{\"className\":\"font-sans\",\"children\":[\"$\",\"$L6\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"errorScripts\":\"$undefined\",\"template\":[\"$\",\"$L7\",null,{}],\"templateStyles\":\"$undefined\",\"templateScripts\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be fou"])</script><script>self.__next_f.push([1,"nd.\"}]}]]}]}]],\"notFoundStyles\":[]}]}]}]],null],null],\"couldBeIntercepted\":false,\"initialHead\":[null,\"$L8\"],\"globalErrorComponent\":\"$9\",\"missingSlots\":\"$Wa\"}]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"meta\",\"1\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"2\",{\"children\":\"ModelRun.io - 模型运行参数生成与部署助手\"}],[\"$\",\"meta\",\"3\",{\"name\":\"description\",\"content\":\"在不同显卡、推理引擎下，快速生成 Docker 启动命令，并展示模型的最小运行规格、CUDA 版本要求及推荐配置。\"}],[\"$\",\"meta\",\"4\",{\"name\":\"author\",\"content\":\"ModelRun.io Team\"}],[\"$\",\"meta\",\"5\",{\"name\":\"keywords\",\"content\":\"AI模型,Docker,GPU,推理引擎,vLLM,TensorRT,LLaMA,ChatGLM\"}],[\"$\",\"meta\",\"6\",{\"name\":\"robots\",\"content\":\"index, follow\"}],[\"$\",\"meta\",\"7\",{\"property\":\"og:title\",\"content\":\"ModelRun.io - 模型运行参数生成与部署助手\"}],[\"$\",\"meta\",\"8\",{\"property\":\"og:description\",\"content\":\"快速生成 AI 模型的 Docker 启动命令，支持多种 GPU 和推理引擎\"}],[\"$\",\"meta\",\"9\",{\"property\":\"og:locale\",\"content\":\"zh_CN\"}],[\"$\",\"meta\",\"10\",{\"property\":\"og:type\",\"content\":\"website\"}],[\"$\",\"meta\",\"11\",{\"name\":\"twitter:card\",\"content\":\"summary\"}],[\"$\",\"meta\",\"12\",{\"name\":\"twitter:title\",\"content\":\"ModelRun.io - 模型运行参数生成与部署助手\"}],[\"$\",\"meta\",\"13\",{\"name\":\"twitter:description\",\"content\":\"快速生成 AI 模型的 Docker 启动命令，支持多种 GPU 和推理引擎\"}]]\n3:null\n"])</script></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ModelRun.io - 模型运行参数生成与部署助手</title>
+    <meta name="description" content="在不同显卡、推理引擎下，快速生成 Docker 启动命令，并展示模型的最小运行规格、CUDA 版本要求及推荐配置。">
+    <meta name="author" content="ModelRun.io Team">
+    <meta name="keywords" content="AI模型,Docker,GPU,推理引擎,vLLM,TensorRT,LLaMA,ChatGLM">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="ModelRun.io - 模型运行参数生成与部署助手">
+    <meta property="og:description" content="快速生成 AI 模型的 Docker 启动命令，支持多种 GPU 和推理引擎">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="ModelRun.io - 模型运行参数生成与部署助手">
+    <meta name="twitter:description" content="快速生成 AI 模型的 Docker 启动命令，支持多种 GPU 和推理引擎">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/web/public/logo.png">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" as="image" href="/web/public/logo.png">
+</head>
+<body class="font-sans">
+    <div class="min-h-screen bg-gray-50">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 flex items-center">
+                            <img src="/web/public/logo.png" alt="ModelRun.io Logo" class="h-10 w-10 mr-3">
+                            <h1 class="site-title">ModelRun.io</h1>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-500">模型运行参数生成与部署助手</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-gray-700">
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="page-content">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Configuration Panel -->
+                    <div class="space-y-6">
+                        <div class="card">
+                            <h2 class="text-xl font-semibold text-gray-900 mb-6">配置选择</h2>
+                            <div class="space-y-6">
+                                <!-- GPU Selection -->
+                                <div class="form-group">
+                                    <label for="gpu-selector" class="form-label">选择 GPU</label>
+                                    <select id="gpu-selector" class="form-select">
+                                        <option value="">请选择 GPU...</option>
+                                    </select>
+                                </div>
+
+                                <!-- Model Selection -->
+                                <div class="form-group">
+                                    <label for="model-selector" class="form-label">选择模型</label>
+                                    <select id="model-selector" class="form-select">
+                                        <option value="">请选择模型...</option>
+                                    </select>
+                                </div>
+
+                                <!-- Engine Selection -->
+                                <div class="form-group">
+                                    <label for="engine-selector" class="form-label">选择推理引擎</label>
+                                    <select id="engine-selector" class="form-select">
+                                        <option value="">请选择推理引擎...</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Command Generation Panel -->
+                    <div class="space-y-6">
+                        <div class="card">
+                            <div class="space-y-6">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="text-lg font-medium text-gray-900">生成的 Docker 命令</h3>
+                                    <button id="generate-btn" class="btn btn-primary" disabled>生成命令</button>
+                                </div>
+                                
+                                <div id="status-message" class="alert alert-warning">
+                                    请先选择 GPU、模型和推理引擎，然后点击"生成命令"按钮
+                                </div>
+                                
+                                <div id="command-output" style="display: none;">
+                                    <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm"><code></code></pre>
+                                    <button id="copy-btn" class="btn btn-primary mt-4" style="display: none;">复制命令</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Features -->
+                        <div class="card">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-4">功能特性</h3>
+                            <div class="feature-grid">
+                                <div class="feature-item">
+                                    <div class="feature-icon blue">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">显卡识别</h4>
+                                        <p class="text-sm text-gray-500">自动匹配 GPU 和推理引擎</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <div class="feature-icon green">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">参数模板</h4>
+                                        <p class="text-sm text-gray-500">内置主流模型配置</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <div class="feature-icon purple">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v18a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h2a1 1 0 011 1v3m0 0h8"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">Docker 命令</h4>
+                                        <p class="text-sm text-gray-500">一键生成启动命令</p>
+                                    </div>
+                                </div>
+
+                                <div class="feature-item">
+                                    <div class="feature-icon orange">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">规格对照</h4>
+                                        <p class="text-sm text-gray-500">显存需求和 CUDA 版本</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="text-center text-gray-500 text-sm">
+                    <p>© 2024 ModelRun.io - 模型运行参数生成与部署助手</p>
+                    <p class="mt-2">支持主流 GPU 和推理引擎，让 AI 模型部署更简单</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/assets/js/site.js"></script>
+</body>
+</html>
