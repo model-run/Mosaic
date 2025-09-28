@@ -34,9 +34,7 @@ exclude:
 
 # Include in site
 include:
-  - _next/static/css
-  - _next/static/chunks
-  - _next/static/js
+  - assets/
 
 # Collections
 collections:

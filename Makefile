@@ -41,20 +41,18 @@ dev: install ## 启动开发服务器
 build: install ## 构建生产版本并导出静态文件到 docs/ 目录
 	@echo "🔨 构建生产版本..."
 	cd $(WEB_DIR) && pnpm run build
-	@echo "📁 移动构建产物到 docs/ 目录..."
-	@if [ -d "$(WEB_DIR)/out" ]; then \
-		mkdir -p docs && \
-		cp -r $(WEB_DIR)/out/* docs/ && \
-		echo "✅ 静态文件已移动到 docs/ 目录"; \
-		rm -rf $(WEB_DIR)/out && \
-		echo "🧹 已清理临时构建文件夹"; \
-		echo "📝 确保静态资源目录存在..."; \
-		mkdir -p docs/_next/static/css docs/_next/static/chunks docs/assets/css docs/assets/js; \
-		echo "✅ 静态资源目录已创建"; \
-	else \
-		echo "❌ 未找到构建产物"; \
-		exit 1; \
-	fi
+	@echo "📁 复制必要文件到 docs/ 目录..."
+	cp $(WEB_DIR)/out/index.html docs/ && \
+	echo "✅ index.html 已复制到 docs/ 目录" && \
+	cp -r $(WEB_DIR)/out/_next/static/css docs/assets/static/css && \
+	echo "✅ CSS 文件已复制到 docs/assets/static/" && \
+	cp -r $(WEB_DIR)/out/_next/static/chunks docs/assets/static/chunks && \
+	echo "✅ JS 文件已复制到 docs/assets/static/" && \
+	echo "📝 更新 HTML 文件中的资源路径..." && \
+	sed -i '' 's|/_next/|/assets/|g' docs/index.html && \
+	echo "✅ HTML 文件中的路径已更新" && \
+	rm -rf $(WEB_DIR)/out && \
+	echo "🧹 已清理临时构建文件夹"
 	@echo "✅ 构建完成"
 
 # GitHub Pages 部署准备
