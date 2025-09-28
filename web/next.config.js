@@ -6,7 +6,11 @@ const nextConfig = {
     unoptimized: true
   },
   assetPrefix: './',
-  basePath: ''
+  basePath: '',
+  // Ensure static assets are properly handled
+  experimental: {
+    optimizePackageImports: ['@/components', '@/lib']
+  }
 }
 
 module.exports = nextConfig

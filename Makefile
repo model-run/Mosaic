@@ -45,6 +45,9 @@ build: install ## 构建生产版本并导出静态文件
 	@if [ -d "$(WEB_DIR)/out" ]; then \
 		cp -r $(WEB_DIR)/out/* . && \
 		echo "✅ 静态文件已移动到根目录"; \
+		rm -rf $(WEB_DIR)/out && \
+		echo "🧹 已清理临时构建文件夹"; \
+		rm -rf logo.png; \
 	else \
 		echo "❌ 未找到构建产物"; \
 		exit 1; \
