@@ -32,7 +32,7 @@ exclude:
 
 # Include in site
 include:
-  - docs/
+  - _next/
 
 # Collections
 collections:
