@@ -3,7 +3,7 @@ title: ModelRun.io
 description: 模型运行参数生成与部署助手
 author: ModelRun.io Team
 email: team@modelrun.io
-url: https://your-username.github.io
+url: https://model-run.github.io
 baseurl: /Mosaic
 
 # GitHub Pages settings
@@ -12,7 +12,7 @@ highlighter: rouge
 theme: minima
 
 # Build settings
-source: .
+source: docs
 destination: _site
 plugins:
   - jekyll-feed
@@ -29,10 +29,13 @@ exclude:
   - Makefile
   - allaboutproject.md
   - LICENSE
+  - .github/
+  - .gitignore
 
 # Include in site
 include:
   - _next/
+  - assets/
 
 # Collections
 collections:

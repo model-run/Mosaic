@@ -48,6 +48,9 @@ build: install ## 构建生产版本并导出静态文件到 docs/ 目录
 		echo "✅ 静态文件已移动到 docs/ 目录"; \
 		rm -rf $(WEB_DIR)/out && \
 		echo "🧹 已清理临时构建文件夹"; \
+		echo "📝 确保静态资源目录存在..."; \
+		mkdir -p docs/_next/static/css docs/_next/static/chunks docs/assets/css docs/assets/js; \
+		echo "✅ 静态资源目录已创建"; \
 	else \
 		echo "❌ 未找到构建产物"; \
 		exit 1; \

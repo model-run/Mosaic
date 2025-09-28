@@ -49,24 +49,32 @@ jobs:
           mkdir -p docs
           cp -r web/out/* docs/
           
-          # Ensure assets directory exists in docs
-          mkdir -p docs/assets/css docs/assets/js
+          # Ensure all necessary directories exist
+          mkdir -p docs/_next/static/css docs/_next/static/chunks docs/assets/css docs/assets/js
           
-          # Copy CSS and JS files to docs/assets directory
-          if [ -f "docs/assets/css/style.css" ]; then
-            echo "CSS file already exists in docs/"
-          else
+          # Copy static assets to proper locations
+          if [ -d "web/out/_next/static" ]; then
+            cp -r web/out/_next/static/* docs/_next/static/
+            echo "✅ Next.js static assets copied to docs/_next/static/"
+          fi
+          
+          # Create fallback CSS and JS files if they don't exist
+          if [ ! -f "docs/assets/css/style.css" ]; then
             echo "/* GitHub Pages CSS */" > docs/assets/css/style.css
           fi
           
-          if [ -f "docs/assets/js/site.js" ]; then
-            echo "JS file already exists in docs/"
-          else
+          if [ ! -f "docs/assets/js/site.js" ]; then
             echo "/* GitHub Pages JS */" > docs/assets/js/site.js
           fi
           
           # Clean up temporary files
           rm -rf web/out
+          
+          # List contents for debugging
+          echo "📁 docs/ directory contents:"
+          ls -la docs/
+          echo "📁 docs/_next/ directory contents:"
+          ls -la docs/_next/ || echo "No _next directory found"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
