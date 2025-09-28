@@ -1,44 +1,47 @@
-# ModelRun.io
+ESP Launchpad is a web based tool, available for flashing firmware application to the ESP32 device connected via USB serial port.
 
-**模型运行参数生成与部署助手**  
-在不同显卡、推理引擎下，快速生成 **Docker 启动命令**，并展示模型的最小运行规格、CUDA 版本要求及推荐配置。
+There are two modes available for using this tool:
+- Quick Start : 4 Easy Steps - Plug, Connect, Choose Built-In Firmware Image, Flash!
+- DIY : For Advanced Users, use your own pre-built Firmware Image from local storage and Flash!
 
----
 
-## ✨ 功能特性
+**Quick Start:**
 
-- 🔍 **显卡识别与推荐**  
-  根据 GPU 型号，自动匹配可用的推理引擎和兼容配置。
+ESP currently provides a few built in, ready to use examples that can be flashed on the ESP32 devices. You can choose one of the built in firmware application for either RainMaker or Matter, and as per the chipset type. Just plug in your ESP32 device to the serial USB port. Use connect option in the menu to connect to your ESP32 device. Choose the firmware from the built-in firmware example set. Click Flash!
 
-- ⚙️ **主流模型启动参数模板**  
-  内置常见大模型（如 LLaMA、ChatGLM、Mistral、Stable Diffusion 等）的启动参数推荐。
+The firmware will be flashed on to your connected device. You can watch the progress of the firmware flashing in the console window.
 
-- 🐳 **一键生成 Docker 启动命令**  
-  支持 GPU 加速、卷挂载、环境变量配置，避免手动拼命令的繁琐。
+This easy, 4 step process will flash the firmware on to the connected device and bring it into play as you want it to be.
 
-- 📊 **最小规格对照表**  
-  展示不同模型的最低显存需求、推荐 CUDA 版本、驱动版本等。
+[Try Now](https://espressif.github.io/esp-launchpad/)
 
-- 🌐 **简洁直观的 Web 界面**  
-  可视化选择显卡、模型、推理引擎，并实时预览生成的命令。
+**DIY:**
 
----
+You can build your own firmware binaries using the ESP IDF tools. These firmware images can then be flashed from your local machine to the connected device. Just connect your ESP32 device to the serial USB port. Using the web based tool, connect to your device. You can then select the firmware application from the local storage of the machine. Choose the memory address where to flash the firmware. Firmware can be a single file or a set of
+multiple files to be flashed at particular memory addresses.
 
-## 🚀 快速开始
+Click Flash!
 
-1. 打开网站 [**modelrun.io**](https://modelrun.io)  
-2. 选择你的 **显卡型号**（如 RTX 4090 / A100 / V100）  
-3. 选择 **模型** 与 **推理引擎**  
-4. 根据推荐参数或自定义参数生成命令  
-5. 一键复制，运行容器 🚀
+The firmware will be flashed on to your connected device. You can watch the progress of the firmware flashing in the console window.
 
-示例命令：
+[Try Now !](https://espressif.github.io/esp-launchpad/)
 
-```bash
-docker run --gpus all \
-  -v /my/models:/models \
-  modelrun/llama2-7b:latest \
-  --model_path /models/llama2-7b \
-  --batch_size 1 \
-  --max_seq_len 2048 \
-  --use_fp16
+
+
+**Publish your own firmware apps:**
+
+ESP Launchpad also lets you easily publish your firmware apps for others to try.
+
+The ESP Launchpad Quick Start page would be rendered by referring to a TOML configuration file, where you can configure where to pick all the component images of your firmware, and the supported hardware. You could also link to any supported phone apps to work along with this firmware.
+
+You can also include additional information about your application in **Markdown format** within the TOML config file itself. ESP Launchpad will then render the application information and any additional instructions in the browser after flashing the firmware image. A sample TOML config file can be viewed [here](https://github.com/espressif/esp-launchpad/blob/main/config/config.toml)
+
+Rest of the flashing procedure is same easy 4 step process as the Quick Start one above.
+
+Once ready, you can use the following image and URL for supporting ESP Launchpad with your configuration.
+
+```
+<a href="https://espressif.github.io/esp-launchpad/">
+    <img alt="Try it with ESP Launchpad" src="https://espressif.github.io/esp-launchpad/assets/try_with_launchpad.png" width="250" height="70">
+</a>
+```
