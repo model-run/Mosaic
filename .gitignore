@@ -12,6 +12,8 @@
 # next.js
 /.next/
 /out/
+web/.next/
+web/out/
 
 # production
 /build
@@ -46,3 +48,13 @@ next-env.d.ts
 # Keep these ignored
 node_modules/
 pnpm-lock.yaml
+
+# Next.js specific
+web/.next/
+web/out/
+web/.env*.local
+web/.vercel
+
+# Development
+.DS_Store
+*.log
