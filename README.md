@@ -1,47 +1,108 @@
-ESP Launchpad is a web based tool, available for flashing firmware application to the ESP32 device connected via USB serial port.
+# ModelRun.io
 
-There are two modes available for using this tool:
-- Quick Start : 4 Easy Steps - Plug, Connect, Choose Built-In Firmware Image, Flash!
-- DIY : For Advanced Users, use your own pre-built Firmware Image from local storage and Flash!
+**模型运行参数生成与部署助手**  
+在不同显卡、推理引擎下，快速生成 **Docker 启动命令**，并展示模型的最小运行规格、CUDA 版本要求及推荐配置。
 
+## 🚀 快速开始
 
-**Quick Start:**
+### 本地开发
 
-ESP currently provides a few built in, ready to use examples that can be flashed on the ESP32 devices. You can choose one of the built in firmware application for either RainMaker or Matter, and as per the chipset type. Just plug in your ESP32 device to the serial USB port. Use connect option in the menu to connect to your ESP32 device. Choose the firmware from the built-in firmware example set. Click Flash!
+```bash
+# 查看所有可用命令
+make help
 
-The firmware will be flashed on to your connected device. You can watch the progress of the firmware flashing in the console window.
+# 启动开发服务器
+make dev
 
-This easy, 4 step process will flash the firmware on to the connected device and bring it into play as you want it to be.
+# 构建生产版本
+make build
 
-[Try Now](https://espressif.github.io/esp-launchpad/)
+# 导出静态文件到根目录
+make export
 
-**DIY:**
+# 构建并提交构建产物
+make commit-build
 
-You can build your own firmware binaries using the ESP IDF tools. These firmware images can then be flashed from your local machine to the connected device. Just connect your ESP32 device to the serial USB port. Using the web based tool, connect to your device. You can then select the firmware application from the local storage of the machine. Choose the memory address where to flash the firmware. Firmware can be a single file or a set of
-multiple files to be flashed at particular memory addresses.
+# 完整部署流程
+make deploy-full
+```
 
-Click Flash!
+### 在线访问
 
-The firmware will be flashed on to your connected device. You can watch the progress of the firmware flashing in the console window.
+访问 [**modelrun.io**](https://modelrun.io) 使用在线版本。
 
-[Try Now !](https://espressif.github.io/esp-launchpad/)
+## ✨ 功能特性
 
+- 🔍 **显卡识别与推荐**  
+  根据 GPU 型号，自动匹配可用的推理引擎和兼容配置。
 
+- ⚙️ **主流模型启动参数模板**  
+  内置常见大模型（如 LLaMA、ChatGLM、Mistral、Stable Diffusion 等）的启动参数推荐。
 
-**Publish your own firmware apps:**
+- 🐳 **一键生成 Docker 启动命令**  
+  支持 GPU 加速、卷挂载、环境变量配置，避免手动拼命令的繁琐。
 
-ESP Launchpad also lets you easily publish your firmware apps for others to try.
+- 📊 **最小规格对照表**  
+  展示不同模型的最低显存需求、推荐 CUDA 版本、驱动版本等。
 
-The ESP Launchpad Quick Start page would be rendered by referring to a TOML configuration file, where you can configure where to pick all the component images of your firmware, and the supported hardware. You could also link to any supported phone apps to work along with this firmware.
+- 🌐 **简洁直观的 Web 界面**  
+  可视化选择显卡、模型、推理引擎，并实时预览生成的命令。
 
-You can also include additional information about your application in **Markdown format** within the TOML config file itself. ESP Launchpad will then render the application information and any additional instructions in the browser after flashing the firmware image. A sample TOML config file can be viewed [here](https://github.com/espressif/esp-launchpad/blob/main/config/config.toml)
+## 🛠 技术栈
 
-Rest of the flashing procedure is same easy 4 step process as the Quick Start one above.
+- **前端**: Next.js 14 + React 18 + TypeScript
+- **样式**: Tailwind CSS
+- **包管理**: pnpm
+- **部署**: GitHub Pages
+- **构建**: Next.js Static Export
 
-Once ready, you can use the following image and URL for supporting ESP Launchpad with your configuration.
+## 📦 项目结构
 
 ```
-<a href="https://espressif.github.io/esp-launchpad/">
-    <img alt="Try it with ESP Launchpad" src="https://espressif.github.io/esp-launchpad/assets/try_with_launchpad.png" width="250" height="70">
-</a>
+Mosaic/
+├── web/                     # 网站源码目录
+│   ├── src/
+│   │   ├── app/             # Next.js App Router
+│   │   ├── components/       # React 组件
+│   │   ├── lib/              # 工具库和数据
+│   │   └── types/            # TypeScript 类型定义
+│   ├── public/               # 静态资源
+│   ├── package.json          # 项目依赖
+│   └── next.config.js        # Next.js 配置
+├── .github/workflows/        # GitHub Actions 配置
+├── index.html               # 构建后的网站入口（构建后生成）
+├── _next/                   # Next.js 构建产物（构建后生成）
+├── static/                  # 静态资源（构建后生成）
+├── Makefile                 # 构建脚本
+└── README.md               # 项目说明
 ```
+
+## 🚀 使用示例
+
+1. 选择你的 **显卡型号**（如 RTX 4090 / A100 / V100）  
+2. 选择 **模型** 与 **推理引擎**  
+3. 根据推荐参数或自定义参数生成命令  
+4. 一键复制，运行容器 🚀
+
+### 示例命令
+
+```bash
+docker run --gpus all \
+  -v /my/models:/models \
+  -p 8000:8000 \
+  vllm/vllm-openai:latest \
+  --model /models/llama-7b \
+  --tensor-parallel-size 1 \
+  --gpu-memory-utilization 0.8 \
+  --max-model-len 4096 \
+  --host 0.0.0.0 \
+  --port 8000
+```
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+## 📄 许可证
+
+MIT License - 详见 [LICENSE](LICENSE) 文件。
