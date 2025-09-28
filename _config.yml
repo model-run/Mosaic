@@ -34,8 +34,8 @@ exclude:
 
 # Include in site
 include:
-  - _next/
-  - assets/
+  - docs/_next/
+  - docs/assets/
 
 # Collections
 collections:
