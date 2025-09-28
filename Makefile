@@ -38,16 +38,16 @@ dev: install ## 启动开发服务器
 	cd $(WEB_DIR) && pnpm run dev
 
 # 构建项目
-build: install ## 构建生产版本并导出静态文件
+build: install ## 构建生产版本并导出静态文件到 docs/ 目录
 	@echo "🔨 构建生产版本..."
 	cd $(WEB_DIR) && pnpm run build
-	@echo "📁 移动构建产物到根目录..."
+	@echo "📁 移动构建产物到 docs/ 目录..."
 	@if [ -d "$(WEB_DIR)/out" ]; then \
-		cp -r $(WEB_DIR)/out/* . && \
-		echo "✅ 静态文件已移动到根目录"; \
+		mkdir -p docs && \
+		cp -r $(WEB_DIR)/out/* docs/ && \
+		echo "✅ 静态文件已移动到 docs/ 目录"; \
 		rm -rf $(WEB_DIR)/out && \
 		echo "🧹 已清理临时构建文件夹"; \
-		rm -rf logo.png; \
 	else \
 		echo "❌ 未找到构建产物"; \
 		exit 1; \
@@ -55,7 +55,7 @@ build: install ## 构建生产版本并导出静态文件
 	@echo "✅ 构建完成"
 
 # GitHub Pages 部署准备
-deploy-github-pages: build ## 准备 GitHub Pages 部署
+deploy-github-pages: build ## 准备 GitHub Pages 部署到 docs/ 目录
 	@echo "🚀 准备 GitHub Pages 部署..."
 	@echo "📝 创建 GitHub Pages 兼容的 HTML 文件..."
 	@echo "✅ GitHub Pages 部署准备完成"
@@ -65,7 +65,8 @@ deploy-github-pages: build ## 准备 GitHub Pages 部署
 	@echo "2. 推送到 GitHub: git push origin main"
 	@echo "3. 在 GitHub 仓库设置中启用 GitHub Pages"
 	@echo "4. 选择 'Deploy from a branch' 并选择 'main' 分支"
-	@echo "5. 访问 https://your-username.github.io/Mosaic 查看网站"
+	@echo "5. 选择 'docs/' 作为发布源"
+	@echo "6. 访问 https://your-username.github.io/Mosaic 查看网站"
 
 # 清理缓存
 clean: ## 清理构建缓存和依赖

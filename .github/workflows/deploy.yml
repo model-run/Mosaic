@@ -45,23 +45,24 @@ jobs:
 
       - name: Prepare GitHub Pages
         run: |
-          # Copy built files to root
-          cp -r web/out/* .
+          # Create docs directory and copy built files
+          mkdir -p docs
+          cp -r web/out/* docs/
           
-          # Ensure assets directory exists
-          mkdir -p assets/css assets/js
+          # Ensure assets directory exists in docs
+          mkdir -p docs/assets/css docs/assets/js
           
-          # Copy CSS and JS files to assets directory
-          if [ -f "assets/css/style.css" ]; then
-            echo "CSS file already exists"
+          # Copy CSS and JS files to docs/assets directory
+          if [ -f "docs/assets/css/style.css" ]; then
+            echo "CSS file already exists in docs/"
           else
-            echo "/* GitHub Pages CSS */" > assets/css/style.css
+            echo "/* GitHub Pages CSS */" > docs/assets/css/style.css
           fi
           
-          if [ -f "assets/js/site.js" ]; then
-            echo "JS file already exists"
+          if [ -f "docs/assets/js/site.js" ]; then
+            echo "JS file already exists in docs/"
           else
-            echo "/* GitHub Pages JS */" > assets/js/site.js
+            echo "/* GitHub Pages JS */" > docs/assets/js/site.js
           fi
           
           # Clean up temporary files
@@ -70,7 +71,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: 'docs'
 
   deploy:
     environment:

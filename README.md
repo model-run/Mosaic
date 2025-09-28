@@ -28,21 +28,23 @@ git push origin main
 
 ```
 Mosaic/
-├── assets/                    # GitHub Pages 静态资源
-│   ├── css/
-│   │   └── style.scss         # Jekyll SCSS 样式文件
-│   └── js/
-│       └── site.js           # 站点 JavaScript
-├── web/                      # Next.js 开发环境
+├── docs/                      # GitHub Pages 构建产物目录
+│   ├── assets/                # 静态资源
+│   │   ├── css/
+│   │   │   └── style.css      # 编译后的 CSS 文件
+│   │   └── js/
+│   │       └── site.js        # 站点 JavaScript
+│   ├── index.html             # 主页面
+│   └── ...                    # 其他构建产物
+├── web/                       # Next.js 开发环境
 │   ├── src/
 │   │   ├── app/             # App Router
 │   │   ├── components/       # React 组件
 │   │   └── lib/             # 工具库
 │   └── package.json
-├── index.html                # GitHub Pages 主页面
-├── _config.yml              # Jekyll 配置
+├── _config.yml               # Jekyll 配置
 └── .github/workflows/
-    └── deploy.yml           # GitHub Actions
+    └── deploy.yml            # GitHub Actions
 ```
 
 ## 🛠 技术栈

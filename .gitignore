@@ -37,13 +37,13 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Build artifacts in root directory (commented out to allow committing)
-# index.html
-# index.txt
-# _next/
-# static/
-# 404.html
-# 404/
+# Build artifacts in docs directory (commented out to allow committing)
+# docs/
+# docs/index.html
+# docs/_next/
+# docs/static/
+# docs/404.html
+# docs/404/
 
 # Keep these ignored
 node_modules/

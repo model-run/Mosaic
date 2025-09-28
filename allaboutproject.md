@@ -200,12 +200,15 @@ make commit-build    # 提交构建产物到 Git
 #### 目录结构
 ```
 Mosaic/
-├── assets/                    # GitHub Pages 静态资源
-│   ├── css/
-│   │   └── style.scss         # Jekyll SCSS 样式文件
-│   └── js/
-│       └── site.js           # 站点 JavaScript
-├── index.html                 # 主页面（GitHub Pages 兼容）
+├── docs/                      # GitHub Pages 构建产物目录
+│   ├── assets/                # 静态资源
+│   │   ├── css/
+│   │   │   └── style.css      # 编译后的 CSS 文件
+│   │   └── js/
+│   │       └── site.js        # 站点 JavaScript
+│   ├── index.html             # 主页面
+│   └── ...                    # 其他构建产物
+├── web/                       # Next.js 开发环境
 ├── _config.yml               # Jekyll 配置文件
 └── .github/workflows/
     └── deploy.yml            # GitHub Actions 部署配置
@@ -216,10 +219,14 @@ Mosaic/
 2. **手动部署**: 使用 `make deploy-github-pages` 命令
 3. **访问地址**: `https://your-username.github.io/Mosaic`
 
+#### GitHub Pages 配置
+- **发布源**: 选择 `docs/` 目录作为发布源
+- **分支**: 使用 `main` 分支
+- **构建产物**: 自动生成到 `docs/` 目录
+
 #### CSS/JS 文件规范
-- CSS 文件放在 `assets/css/` 目录下
-- JS 文件放在 `assets/js/` 目录下
-- 使用 Jekyll 的 `style.scss` 格式支持变量和导入
+- CSS 文件放在 `docs/assets/css/` 目录下
+- JS 文件放在 `docs/assets/js/` 目录下
 - HTML 中引用路径为 `/assets/css/style.css` 和 `/assets/js/site.js`
 
 ### 项目状态

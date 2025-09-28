@@ -52,7 +52,7 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0 flex items-center">
                 <img 
-                  src="./web/public/logo.png" 
+                  src="./logo.png" 
                   alt="ModelRun.io Logo" 
                   className="h-10 w-10 mr-3"
                 />

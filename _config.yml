@@ -32,7 +32,7 @@ exclude:
 
 # Include in site
 include:
-  - assets/
+  - docs/
 
 # Collections
 collections:
