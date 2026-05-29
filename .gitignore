@@ -58,3 +58,4 @@ web/.vercel
 # Development
 .DS_Store
 *.log
+.superpowers/
