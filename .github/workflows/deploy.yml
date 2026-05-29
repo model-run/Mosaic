@@ -26,12 +26,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: latest
+          version: 8
 
       - name: Install dependencies
         run: |
@@ -82,6 +81,9 @@ jobs:
           path: 'docs'
 
   deploy:
+    # Only deploy on push to main; PRs run the build job for validation only
+    # (GitHub Pages environment protection rejects deploys from PR refs).
+    if: github.event_name == 'push'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
