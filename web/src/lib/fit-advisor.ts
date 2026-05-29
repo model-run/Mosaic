@@ -10,7 +10,7 @@ const OVERHEAD = 1.2; // KV cache + activation headroom
 
 export interface FitResult {
   knownSize: boolean;
-  availableGB: number;
+  totalAvailableGB: number;
   requiredGB?: number;
   fits?: boolean;
   recommendedTP: number;
@@ -28,7 +28,7 @@ export function advise(
   const size = MODEL_SIZES[modelId];
 
   if (!size) {
-    return { knownSize: false, availableGB, recommendedTP: 1, suggestQuantization: false };
+    return { knownSize: false, totalAvailableGB: availableGB, recommendedTP: 1, suggestQuantization: false };
   }
 
   const requiredGB = size.paramsB * BYTES_PER_PARAM[precision] * OVERHEAD;
@@ -38,5 +38,5 @@ export function advise(
   const quantRequiredGB = size.paramsB * BYTES_PER_PARAM.awq * OVERHEAD;
   const suggestQuantization = !fits && quantRequiredGB <= availableGB;
 
-  return { knownSize: true, availableGB, requiredGB, fits, recommendedTP, suggestQuantization };
+  return { knownSize: true, totalAvailableGB: availableGB, requiredGB, fits, recommendedTP, suggestQuantization };
 }

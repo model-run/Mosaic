@@ -113,7 +113,7 @@ export default function Home() {
             <div className="text-sm text-slate-300 rounded-lg bg-slate-900 p-4">
               {fit.knownSize ? (
                 <>
-                  <div>需要约 {fit.requiredGB?.toFixed(0)} GB / 可用 {fit.availableGB} GB — {fit.fits ? "✅ 跑得动" : "⚠️ 显存不足"}</div>
+                  <div>需要约 {fit.requiredGB?.toFixed(0)} GB / 可用 {fit.totalAvailableGB} GB — {fit.fits ? "✅ 跑得动" : "⚠️ 显存不足"}</div>
                   <div>推荐 tensor-parallel-size: {fit.recommendedTP}</div>
                   {fit.suggestQuantization && <div className="text-amber-400">建议使用量化(AWQ/FP8)以放入当前显存</div>}
                 </>

@@ -11,6 +11,7 @@ describe("fit-advisor", () => {
   it("flags a 70B model as not fitting on one 80GB card at fp16, and suggests quantization", () => {
     const r = advise("llama-3", a100, 1, "fp16");
     expect(r.knownSize).toBe(true);
+    expect(r.totalAvailableGB).toBe(80); // 80GB × 1 card
     expect(r.fits).toBe(false);
     expect(r.recommendedTP).toBe(1); // capped at count
     expect(r.suggestQuantization).toBe(true);
