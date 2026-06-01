@@ -23,7 +23,7 @@ export function RecipeCard({
   onPrecisionChange?: (p: Precision) => void;
   computed?: boolean;
 }) {
-  const showChips = precisions != null && precisions.length > 1;
+  const chips = precisions != null && precisions.length > 1 ? precisions : null;
 
   return (
     <div className="space-y-5">
@@ -33,9 +33,9 @@ export function RecipeCard({
         {recipe.image && <code className="text-xs text-slate-400">{recipe.image}</code>}
       </div>
 
-      {showChips && (
-        <div className="flex flex-wrap items-center gap-2">
-          {precisions!.map((p) => (
+      {chips && (
+        <div role="group" aria-label="精度" className="flex flex-wrap items-center gap-2">
+          {chips.map((p) => (
             <button
               key={p}
               type="button"
