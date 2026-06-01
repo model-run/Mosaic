@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { GPUInfo } from "@/types";
 import type { ModelEntry, EngineId, EngineRecipe } from "@/lib/recipes/types";
-import { ENGINES } from "@/lib/recipes/engines";
+import { engineName } from "@/lib/recipes/engines";
 import { getModelsForScenario, type ScenarioId } from "@/lib/recipes/scenarios";
 import { advise } from "@/lib/fit-advisor";
 import { buildCommand } from "@/lib/command-builder";
@@ -28,7 +28,6 @@ export default function Home() {
   const recipe: EngineRecipe | undefined = model && engineId ? model.engines[engineId] : undefined;
   const fit = model && gpu ? advise(model.id, gpu, count) : null;
   const command = recipe ? buildCommand(recipe, fit ? { tp: fit.recommendedTP } : {}) : null;
-  const engineName = (id: EngineId) => ENGINES.find((e) => e.id === id)?.name ?? id;
 
   return (
     <main className="relative min-h-screen text-slate-100">

@@ -1,11 +1,9 @@
 import type { ModelEntry, EngineId } from "@/lib/recipes/types";
-import { ENGINES } from "@/lib/recipes/engines";
+import { engineName } from "@/lib/recipes/engines";
 import { getRecipeStatus } from "@/lib/recipes/data";
 import { enginesForModel } from "@/lib/engine-sort";
 import { OptionCard } from "@/components/OptionCard";
 import { StatusBadge } from "@/components/StatusBadge";
-
-const engineName = (id: EngineId) => ENGINES.find((e) => e.id === id)?.name ?? id;
 
 export function StepEngine({
   model,
