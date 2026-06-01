@@ -5,13 +5,14 @@ export interface BuildOpts {
   tp?: number;
   /** Target quantization. "fp16" / undefined leaves quantization untouched. */
   quantization?: Precision;
-  /** Engine the recipe belongs to — selects the quant-flag rule. */
+  /** Engine the recipe belongs to — selects the quant-flag rule. When omitted, defaults to the vllm-style `--quantization` flag. */
   engineId?: EngineId;
 }
 
 /** Set or replace a single-valued flag (`--flag VALUE`). Appends if absent. */
 function setFlag(cmd: string, flag: string, value: string): string {
-  const re = new RegExp(`(${flag}\\s+)\\S+`);
+  // value token must not itself be a flag (avoids eating a following --flag)
+  const re = new RegExp(`(${flag}\\s+)(?!--)\\S+`);
   if (re.test(cmd)) return cmd.replace(re, `$1${value}`);
   return `${cmd} ${flag} ${value}`;
 }
@@ -44,6 +45,7 @@ function applyQuant(cmd: string, q: Precision, engineId?: EngineId): string {
   // vllm/sglang share `--quantization`; default to it when engineId is absent.
   const eng = engineId ?? "vllm";
   switch (eng) {
+    // trtllm and mindie --quantization is best-effort: these engines often require build-time quant.
     case "vllm":
     case "vllm-ascend":
     case "sglang":
@@ -54,6 +56,7 @@ function applyQuant(cmd: string, q: Precision, engineId?: EngineId): string {
       return setFlag(cmd, "--quantize", q);
     case "lmdeploy":
       // lmdeploy expresses weight-only quant via model-format + quant-policy.
+      // fp8 and other precisions need no flag here — handled at the variant level.
       return q === "awq" || q === "gptq"
         ? setFlag(setFlag(cmd, "--model-format", q), "--quant-policy", "4")
         : cmd;

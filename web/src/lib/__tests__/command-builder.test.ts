@@ -64,4 +64,10 @@ describe("command-builder", () => {
     const r: EngineRecipe = { status: "native", command: "text-embeddings-router --model-id X" };
     expect(buildCommand(r, { quantization: "fp8", engineId: "tei" })).toBe(r.command);
   });
+  it("does not consume a following flag when replacing a valueless flag", () => {
+    const r: EngineRecipe = { status: "native", command: "vllm serve X --quantization --trust-remote-code" };
+    const out = buildCommand(r, { quantization: "awq", engineId: "vllm" })!;
+    expect(out).toContain("--trust-remote-code");
+    expect(out).toContain("--quantization awq");
+  });
 });
