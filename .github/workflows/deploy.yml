@@ -25,7 +25,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '18'
+          # Node 20 (LTS): pnpm 8.15's self-installer (@pnpm/exe) crashes under
+          # Node 18, and pnpm/action-setup runs it on this PATH Node. 20 also
+          # satisfies the project's engines (node >=18) and Next 14 / React 18.
+          node-version: '20'
 
       - name: Setup pnpm
         # No `version:` input — pnpm/action-setup@v4+ reads the version from
