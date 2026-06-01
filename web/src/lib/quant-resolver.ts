@@ -12,9 +12,6 @@ export interface ResolvedRecipe {
   computed: boolean;
 }
 
-const COMPUTED_NOTE =
-  "量化命令为按引擎规则推导，非实测，请以官方文档为准。";
-
 /**
  * Precisions the UI should offer for this cell, in QUANT_SUPPORT order.
  * fp16 is always present; a non-fp16 precision is offered when the recipe has a
@@ -60,7 +57,8 @@ export function resolveVariant(
     };
   }
 
-  // 3. computed
+  // 3. computed — the "非实测" caveat is surfaced via the `computed` flag (inline UI tag)
+  //    and the "（推导）" param desc; it is not duplicated into notes.
   const command = buildCommand(recipe, { tp: opts.tp, quantization: precision, engineId });
   // No base command to derive from → degrade to a safe, non-contradictory result.
   if (command == null) {
@@ -84,7 +82,7 @@ export function resolveVariant(
     image: recipe.image,
     params,
     resource: recipe.resource,
-    notes: recipe.notes ? `${recipe.notes}；${COMPUTED_NOTE}` : COMPUTED_NOTE,
+    notes: recipe.notes,
     computed: true,
   };
 }

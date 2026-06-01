@@ -29,4 +29,16 @@ describe("fit-advisor", () => {
     expect(r.fits).toBeUndefined();
     expect(r.recommendedTP).toBe(1);
   });
+
+  it("fits a 70B model on one 80GB card at awq (half the fp16 footprint)", () => {
+    const r = advise("llama-3", a100, 1, "awq");
+    expect(r.fits).toBe(true);
+    expect(r.requiredGB).toBeCloseTo(70 * 0.5 * 1.2); // 42 GB
+    expect(r.suggestQuantization).toBe(false);
+  });
+  it("does not re-suggest quantization when a non-fp16 precision is already selected", () => {
+    const r = advise("llama-3", a100, 1, "fp8"); // 70*1*1.2 = 84GB > 80GB
+    expect(r.fits).toBe(false);
+    expect(r.suggestQuantization).toBe(false); // already quantizing — suppress
+  });
 });

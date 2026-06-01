@@ -45,13 +45,13 @@ describe("resolveVariant", () => {
     expect(r.image).toBe("vllm/vllm-openai:fp8");
     expect(r.notes).toBe("实测 FP8 配方");
   });
-  it("computes a variant by appending the quant flag and a non-empirical note", () => {
+  it("computes a variant by appending the quant flag and a derived param", () => {
     const r = resolveVariant(vllm, "vllm", "awq", { tp: 1 });
     expect(r.computed).toBe(true);
     expect(r.command).toContain("--quantization awq");
-    expect(r.notes).toContain("非实测");
     expect(r.image).toBe("vllm/vllm-openai:v0.7.3"); // base image kept
     expect(r.params?.some((p) => p.key.includes("--quantization"))).toBe(true);
+    expect(r.params?.some((p) => p.desc.includes("推导"))).toBe(true);
   });
   it("uses the engine's real flag in the computed param (tgi → --quantize)", () => {
     const tgi: EngineRecipe = { status: "native", command: "text-generation-launcher --model-id X" };
@@ -71,7 +71,6 @@ describe("resolveVariant", () => {
     const r = resolveVariant(llama, "llamacpp", "gguf", {});
     expect(r.command).toBe("llama-server -m model.gguf"); // unchanged
     expect(r.params?.length).toBe(1); // no synthetic flag appended
-    expect(r.notes).toContain("非实测");
     expect(r.computed).toBe(true);
   });
   it("override with only command inherits notes and params from base", () => {

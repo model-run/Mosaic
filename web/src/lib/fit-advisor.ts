@@ -37,7 +37,8 @@ export function advise(
   const recommendedTP = Math.min(cards, Math.max(1, Math.ceil(requiredGB / gpu.memory)));
   // Would the model fit on the same hardware if quantized to AWQ (0.5 B/param)?
   const quantRequiredGB = size.paramsB * BYTES_PER_PARAM.awq * OVERHEAD;
-  const suggestQuantization = !fits && quantRequiredGB <= availableGB;
+  // Only suggest quantization to a user still on full precision — don't re-suggest if they already picked one.
+  const suggestQuantization = !fits && precision === "fp16" && quantRequiredGB <= availableGB;
 
   return { knownSize: true, totalAvailableGB: availableGB, requiredGB, fits, recommendedTP, suggestQuantization };
 }
