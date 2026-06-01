@@ -1,16 +1,30 @@
-import type { EngineRecipe } from "@/lib/recipes/types";
+import type { EngineRecipe, Precision } from "@/lib/recipes/types";
 import { CommandBlock } from "@/components/CommandBlock";
 import { StatusBadge } from "@/components/StatusBadge";
+
+const PRECISION_LABEL: Record<Precision, string> = {
+  fp16: "FP16", fp8: "FP8", awq: "AWQ", gptq: "GPTQ", gguf: "GGUF",
+};
 
 export function RecipeCard({
   engineName,
   recipe,
   command,
+  precisions,
+  precision,
+  onPrecisionChange,
+  computed,
 }: {
   engineName: string;
   recipe: EngineRecipe;
   command: string | null;
+  precisions?: Precision[];
+  precision?: Precision;
+  onPrecisionChange?: (p: Precision) => void;
+  computed?: boolean;
 }) {
+  const showChips = precisions != null && precisions.length > 1;
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center gap-3">
@@ -18,6 +32,23 @@ export function RecipeCard({
         <StatusBadge status={recipe.status} />
         {recipe.image && <code className="text-xs text-slate-400">{recipe.image}</code>}
       </div>
+
+      {showChips && (
+        <div className="flex flex-wrap items-center gap-2">
+          {precisions!.map((p) => (
+            <button
+              key={p}
+              type="button"
+              className={`quant-chip${p === precision ? " is-selected" : ""}`}
+              aria-pressed={p === precision}
+              onClick={() => onPrecisionChange?.(p)}
+            >
+              {PRECISION_LABEL[p]}
+            </button>
+          ))}
+          {computed && <span className="text-xs text-amber-300">推导命令 · 非实测</span>}
+        </div>
+      )}
 
       {command ? (
         <CommandBlock command={command} />

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { RecipeCard } from "@/components/RecipeCard";
 import type { EngineRecipe } from "@/lib/recipes/types";
 
@@ -27,7 +27,7 @@ describe("RecipeCard", () => {
   it("renders the full recipe: badge, command, params, notes, docUrl", () => {
     render(<RecipeCard engineName="vLLM" recipe={full} command={full.command!} />);
     expect(screen.getByText("原生支持")).toBeInTheDocument();
-    expect(screen.getByText("复制")).toBeInTheDocument(); // CommandBlock present
+    expect(screen.getByText("复制")).toBeInTheDocument();
     expect(screen.getByText("张量并行度")).toBeInTheDocument();
     expect(screen.getByText(/已知坑/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /官方文档/ })).toHaveAttribute("href", "https://docs.vllm.ai");
@@ -38,5 +38,39 @@ describe("RecipeCard", () => {
     expect(screen.queryByText("复制")).not.toBeInTheDocument();
     expect(screen.getByText(/暂无一键命令/)).toBeInTheDocument();
     expect(screen.getByText(/TensorRT-LLM 需先 trtllm-build/)).toBeInTheDocument();
+  });
+
+  it("renders a precision chip per available precision and calls onPrecisionChange", () => {
+    const onChange = vi.fn();
+    render(
+      <RecipeCard
+        engineName="vLLM"
+        recipe={full}
+        command={full.command!}
+        precisions={["fp16", "fp8", "awq"]}
+        precision="fp16"
+        onPrecisionChange={onChange}
+      />,
+    );
+    expect(screen.getByRole("button", { name: "FP8" })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "AWQ" }));
+    expect(onChange).toHaveBeenCalledWith("awq");
+  });
+
+  it("hides the chip row when only fp16 is available", () => {
+    render(
+      <RecipeCard engineName="vLLM" recipe={full} command={full.command!} precisions={["fp16"]} precision="fp16" />,
+    );
+    expect(screen.queryByRole("button", { name: "FP16" })).not.toBeInTheDocument();
+  });
+
+  it("shows a non-empirical tag when computed is true", () => {
+    render(
+      <RecipeCard
+        engineName="vLLM" recipe={full} command={full.command!}
+        precisions={["fp16", "awq"]} precision="awq" computed
+      />,
+    );
+    expect(screen.getByText(/非实测/)).toBeInTheDocument();
   });
 });
