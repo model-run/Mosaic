@@ -3,71 +3,160 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --aurora-violet: 124 58 237; /* #7c3aed */
+  --aurora-cyan: 34 211 238; /* #22d3ee */
+  --aurora-indigo: 79 70 229; /* #4f46e5 */
+  --bg-deep: 7 7 16; /* #070710 */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+html,
+body {
+  background: rgb(var(--bg-deep));
+  color: #e8eaf2;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  overflow-x: hidden;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
+@layer components {
+  /* Full-viewport multi-focal aurora + fine grain (fixed, behind content). */
+  .aurora-bg {
+    @apply fixed inset-0 -z-10;
+    background:
+      radial-gradient(60% 50% at 18% 8%, rgba(124, 58, 237, 0.4), transparent 60%),
+      radial-gradient(55% 45% at 88% 12%, rgba(34, 211, 238, 0.28), transparent 58%),
+      radial-gradient(70% 60% at 60% 100%, rgba(79, 70, 229, 0.3), transparent 60%),
+      rgb(var(--bg-deep));
+    filter: saturate(1.1);
+  }
+  .grain {
+    @apply pointer-events-none fixed inset-0 -z-10;
+    opacity: 0.5;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
+  /* Hero */
+  .hero {
+    @apply flex min-h-[60vh] flex-col items-center justify-center px-6 pb-3 pt-12 text-center;
+  }
+  .pill {
+    @apply mb-6 inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs;
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.14);
+    border-color: rgba(124, 58, 237, 0.4);
+  }
+  .pill .dot {
+    @apply h-1.5 w-1.5 rounded-full;
+    background: #22d3ee;
+    box-shadow: 0 0 10px #22d3ee;
+  }
+  .gradient-text {
+    @apply text-4xl font-extrabold leading-[1.05] tracking-tight md:text-6xl;
+    background: linear-gradient(92deg, #ffffff 10%, #c7b8ff 50%, #7ee7ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub {
+    @apply mt-5 max-w-[52ch] text-base leading-relaxed text-slate-400 md:text-lg;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
+  /* Wizard glass card */
+  .wizard-stage {
+    @apply mx-auto mb-20 max-w-5xl px-4;
+  }
+  .glass {
+    @apply overflow-hidden rounded-3xl border;
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 40px 120px -40px rgba(80, 40, 200, 0.5);
+  }
+  .glass-body {
+    @apply px-6 py-8 md:px-8;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
+  /* Step bar */
+  .step-bar {
+    @apply flex flex-wrap gap-1 border-b px-6 py-4 text-[13px] text-slate-500;
+    border-color: rgba(255, 255, 255, 0.07);
+  }
+  .step-bar .active {
+    @apply font-semibold text-indigo-300;
+  }
+  .step-bar .done {
+    @apply text-slate-300;
+  }
+  .step-bar .sep {
+    @apply text-slate-700;
+  }
+  .step-label {
+    @apply mb-2 text-xs uppercase tracking-[0.12em] text-slate-500;
+  }
+  .step-q {
+    @apply mb-6 text-xl font-semibold text-slate-100 md:text-2xl;
+  }
 
-/* Code block styling */
-.code-block {
-  @apply bg-gray-900 text-gray-100 p-4 rounded-lg font-mono text-sm overflow-x-auto;
-}
+  /* Card grid + option card (hover lift/glow, selected cyan ring) */
+  .card-grid {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3;
+  }
+  .option-card {
+    @apply block w-full cursor-pointer rounded-2xl border p-5 text-left transition-all duration-200;
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.09);
+  }
+  .option-card:hover {
+    @apply -translate-y-0.5;
+    border-color: rgba(124, 58, 237, 0.55);
+    background: rgba(124, 58, 237, 0.1);
+    box-shadow: 0 18px 50px -24px rgba(124, 58, 237, 0.7);
+  }
+  .option-card.is-selected {
+    border-color: #22d3ee;
+    background: rgba(34, 211, 238, 0.1);
+    box-shadow:
+      0 0 0 1px #22d3ee,
+      0 18px 50px -22px rgba(34, 211, 238, 0.6);
+  }
+  .option-ico {
+    @apply mb-3.5 flex h-10 w-10 items-center justify-center rounded-xl text-xl;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(34, 211, 238, 0.4));
+  }
 
-.code-block pre {
-  @apply m-0;
-}
+  /* GPU fit panel */
+  .fit-panel {
+    @apply mt-5 rounded-2xl p-4 text-sm text-slate-200;
+    background: rgba(255, 255, 255, 0.04);
+  }
 
-/* Button animations */
-.btn-primary {
-  @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-}
+  /* Gradient CTA */
+  .gradient-btn {
+    @apply rounded-xl px-6 py-3 text-[15px] font-semibold transition-shadow;
+    color: #0a0a14;
+    background: linear-gradient(135deg, #a5b4fc, #67e8f9);
+    box-shadow: 0 12px 36px -10px rgba(103, 232, 249, 0.7);
+  }
 
-.btn-secondary {
-  @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-}
+  /* Command block (dark code + copy button) */
+  .cmd-block {
+    @apply relative overflow-hidden rounded-2xl border border-white/10 bg-black/60;
+  }
+  .cmd-pre {
+    @apply overflow-x-auto whitespace-pre p-4 pr-24 font-mono text-[13px] leading-relaxed;
+  }
+  .cmd-copy {
+    @apply absolute right-3 top-3 rounded-lg border border-white/15 bg-white/5 px-3 py-1 text-xs text-slate-200 transition-colors hover:bg-white/10;
+  }
 
-/* Card styling */
-.card {
-  @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
-}
-
-.card-hover {
-  @apply hover:shadow-md transition-shadow duration-200;
+  /* Recipe extras */
+  .param-list {
+    @apply space-y-1.5 text-sm;
+  }
+  .degraded-note {
+    @apply rounded-2xl border border-amber-400/20 bg-amber-400/5 p-4 text-sm text-amber-200/90;
+  }
 }
