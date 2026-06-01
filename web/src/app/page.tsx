@@ -93,6 +93,7 @@ export default function Home() {
                   engineName={engineName(engineId)}
                   recipe={{
                     ...recipe,
+                    command: resolved.command ?? undefined,
                     image: resolved.image,
                     params: resolved.params,
                     resource: resolved.resource,
