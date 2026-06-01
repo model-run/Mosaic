@@ -1,7 +1,8 @@
 import type { GPUInfo } from "@/types";
 import { MODEL_SIZES } from "@/lib/recipes/model-sizes";
+import type { Precision } from "@/lib/recipes/types";
 
-export type Precision = "fp16" | "fp8" | "awq" | "gptq" | "gguf";
+export type { Precision };
 
 const BYTES_PER_PARAM: Record<Precision, number> = {
   fp16: 2, fp8: 1, awq: 0.5, gptq: 0.5, gguf: 0.5,

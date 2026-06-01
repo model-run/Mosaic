@@ -52,6 +52,7 @@ export interface EngineRecipe {
   notes?: string;
   docUrl?: string;
   tooltip?: string;
+  variants?: Partial<Record<Precision, QuantVariant>>;
 }
 
 export interface ModelEntry {
@@ -60,4 +61,19 @@ export interface ModelEntry {
   category: CategoryId;
   meta: string;
   engines: Partial<Record<EngineId, EngineRecipe>>;
+}
+
+/** Quantization precisions the matrix can expose. */
+export type Precision = "fp16" | "fp8" | "awq" | "gptq" | "gguf";
+
+/**
+ * Hand-written override for a specific precision. Any field provided replaces
+ * the corresponding base recipe field wholesale; omitted fields fall back to base.
+ */
+export interface QuantVariant {
+  image?: string;
+  command?: string;
+  params?: RecipeParam[];
+  resource?: string;
+  notes?: string;
 }
