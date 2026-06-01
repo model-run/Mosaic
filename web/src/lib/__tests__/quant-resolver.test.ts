@@ -51,6 +51,38 @@ describe("resolveVariant", () => {
     expect(r.command).toContain("--quantization awq");
     expect(r.notes).toContain("非实测");
     expect(r.image).toBe("vllm/vllm-openai:v0.7.3"); // base image kept
-    expect(r.params?.some((p) => p.key === "--quantization")).toBe(true);
+    expect(r.params?.some((p) => p.key.includes("--quantization"))).toBe(true);
+  });
+  it("uses the engine's real flag in the computed param (tgi → --quantize)", () => {
+    const tgi: EngineRecipe = { status: "native", command: "text-generation-launcher --model-id X" };
+    const r = resolveVariant(tgi, "tgi", "gptq", {});
+    expect(r.command).toContain("--quantize gptq");
+    expect(r.params?.some((p) => p.key.includes("--quantize"))).toBe(true);
+    expect(r.params?.some((p) => p.key === "--quantization")).toBe(false);
+  });
+  it("uses --model-format for lmdeploy awq computed param", () => {
+    const lm: EngineRecipe = { status: "native", command: "lmdeploy serve api_server X" };
+    const r = resolveVariant(lm, "lmdeploy", "awq", {});
+    expect(r.command).toContain("--model-format awq");
+    expect(r.params?.some((p) => p.key.includes("--model-format"))).toBe(true);
+  });
+  it("appends no quant param for llamacpp gguf (file-based, no flag) but still flags non-empirical", () => {
+    const llama: EngineRecipe = { status: "native", command: "llama-server -m model.gguf", params: [{ key: "-m", value: "model.gguf", desc: "模型文件" }] };
+    const r = resolveVariant(llama, "llamacpp", "gguf", {});
+    expect(r.command).toBe("llama-server -m model.gguf"); // unchanged
+    expect(r.params?.length).toBe(1); // no synthetic flag appended
+    expect(r.notes).toContain("非实测");
+    expect(r.computed).toBe(true);
+  });
+  it("override with only command inherits notes and params from base", () => {
+    const base: EngineRecipe = {
+      status: "native", command: "vllm serve X", notes: "base note",
+      params: [{ key: "--a", value: "1", desc: "d" }],
+      variants: { awq: { command: "vllm serve X --quantization awq" } },
+    };
+    const r = resolveVariant(base, "vllm", "awq", {});
+    expect(r.computed).toBe(false);
+    expect(r.notes).toBe("base note");
+    expect(r.params).toEqual([{ key: "--a", value: "1", desc: "d" }]);
   });
 });

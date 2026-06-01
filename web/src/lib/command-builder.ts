@@ -41,30 +41,49 @@ export function buildCommand(recipe: EngineRecipe, opts: BuildOpts = {}): string
   return cmd;
 }
 
-function applyQuant(cmd: string, q: Precision, engineId?: EngineId): string {
+/** [flag, value] pairs a computed quant variant adds for this engine, in order. Empty = no CLI flag. */
+function quantFlagPairs(q: Precision, engineId?: EngineId): Array<[string, string]> {
   // vllm/sglang share `--quantization`; default to it when engineId is absent.
   const eng = engineId ?? "vllm";
   switch (eng) {
-    // trtllm and mindie --quantization is best-effort: these engines often require build-time quant.
     case "vllm":
     case "vllm-ascend":
     case "sglang":
+    // trtllm/mindie runtime --quantization is best-effort (often require build-time quant).
     case "trtllm":
     case "mindie":
-      return setFlag(cmd, "--quantization", q);
+      return [["--quantization", q]];
     case "tgi":
-      return setFlag(cmd, "--quantize", q);
+      return [["--quantize", q]];
     case "lmdeploy":
       // lmdeploy expresses weight-only quant via model-format + quant-policy.
-      // fp8 and other precisions need no flag here — handled at the variant level.
       return q === "awq" || q === "gptq"
-        ? setFlag(setFlag(cmd, "--model-format", q), "--quant-policy", "4")
-        : cmd;
+        ? [["--model-format", q], ["--quant-policy", "4"]]
+        : []; // fp8/other: no flag here, handled at the variant level
     case "llamacpp": // gguf is carried by the model file, not a flag
     case "tei":
     case "infinity":
     case "comfyui":
     default:
-      return cmd;
+      return [];
   }
+}
+
+function applyQuant(cmd: string, q: Precision, engineId?: EngineId): string {
+  for (const [flag, value] of quantFlagPairs(q, engineId)) {
+    cmd = setFlag(cmd, flag, value);
+  }
+  return cmd;
+}
+
+/**
+ * Human-readable flag string a computed variant adds for this engine
+ * (e.g. "--quantization awq", "--model-format awq --quant-policy 4"),
+ * or null when the engine encodes quantization outside the CLI (e.g. gguf) or for fp16.
+ */
+export function quantFlagString(engineId: EngineId | undefined, q: Precision): string | null {
+  if (q === "fp16") return null;
+  const pairs = quantFlagPairs(q, engineId);
+  if (pairs.length === 0) return null;
+  return pairs.map(([f, v]) => `${f} ${v}`).join(" ");
 }

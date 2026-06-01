@@ -1,6 +1,6 @@
 import type { EngineId, EngineRecipe, Precision, RecipeParam } from "@/lib/recipes/types";
 import { QUANT_SUPPORT } from "@/lib/recipes/quant-support";
-import { buildCommand } from "@/lib/command-builder";
+import { buildCommand, quantFlagString } from "@/lib/command-builder";
 
 export interface ResolvedRecipe {
   command: string | null;
@@ -39,7 +39,7 @@ export function resolveVariant(
     return {
       command: buildCommand(recipe, { tp: opts.tp }),
       image: recipe.image,
-      params: recipe.params,
+      params: recipe.params ? [...recipe.params] : undefined,
       resource: recipe.resource,
       notes: recipe.notes,
       computed: false,
@@ -53,7 +53,7 @@ export function resolveVariant(
     return {
       command: buildCommand(merged, { tp: opts.tp }),
       image: ov.image ?? recipe.image,
-      params: ov.params ?? recipe.params,
+      params: ov.params ?? (recipe.params ? [...recipe.params] : undefined),
       resource: ov.resource ?? recipe.resource,
       notes: ov.notes ?? recipe.notes,
       computed: false,
@@ -62,15 +62,27 @@ export function resolveVariant(
 
   // 3. computed
   const command = buildCommand(recipe, { tp: opts.tp, quantization: precision, engineId });
-  const quantParam: RecipeParam = {
-    key: "--quantization",
-    value: precision,
-    desc: `量化精度（推导）：${precision}`,
-  };
+  // No base command to derive from → degrade to a safe, non-contradictory result.
+  if (command == null) {
+    return {
+      command: null,
+      image: recipe.image,
+      params: recipe.params ? [...recipe.params] : undefined,
+      resource: recipe.resource,
+      notes: recipe.notes,
+      computed: false,
+    };
+  }
+  const flag = quantFlagString(engineId, precision);
+  const params = flag
+    ? [...(recipe.params ?? []), { key: flag, value: "", desc: `量化精度（推导）：${precision}` }]
+    : recipe.params
+      ? [...recipe.params]
+      : undefined;
   return {
     command,
     image: recipe.image,
-    params: [...(recipe.params ?? []), quantParam],
+    params,
     resource: recipe.resource,
     notes: recipe.notes ? `${recipe.notes}；${COMPUTED_NOTE}` : COMPUTED_NOTE,
     computed: true,
