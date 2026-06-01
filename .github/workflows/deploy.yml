@@ -28,9 +28,10 @@ jobs:
           node-version: '18'
 
       - name: Setup pnpm
+        # No `version:` input — pnpm/action-setup@v4+ reads the version from
+        # package.json's `packageManager` field (pnpm@8.15.0). Specifying both
+        # errors with "Multiple versions of pnpm specified".
         uses: pnpm/action-setup@v6
-        with:
-          version: 8
 
       - name: Install dependencies
         run: |
