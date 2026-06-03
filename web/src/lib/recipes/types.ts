@@ -42,6 +42,22 @@ export interface RecipeParam {
   desc: string;
 }
 
+/** Quantization precisions the matrix can expose. */
+export type Precision = "fp16" | "fp8" | "awq" | "gptq" | "gguf";
+
+/**
+ * Hand-written override for a specific precision. Any field provided replaces
+ * the corresponding base recipe field wholesale; omitted fields fall back to base.
+ */
+export interface QuantVariant {
+  // `status` is intentionally omitted — overrides cannot change support level; inherit from base recipe.
+  image?: string;
+  command?: string;
+  params?: RecipeParam[];
+  resource?: string;
+  notes?: string;
+}
+
 export interface EngineRecipe {
   status: RecipeStatus;
   minVersion?: string;
@@ -52,6 +68,7 @@ export interface EngineRecipe {
   notes?: string;
   docUrl?: string;
   tooltip?: string;
+  variants?: Partial<Record<Precision, QuantVariant>>;
 }
 
 export interface ModelEntry {

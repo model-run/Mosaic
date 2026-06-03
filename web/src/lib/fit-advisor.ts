@@ -1,7 +1,8 @@
 import type { GPUInfo } from "@/types";
 import { MODEL_SIZES } from "@/lib/recipes/model-sizes";
+import type { Precision } from "@/lib/recipes/types";
 
-export type Precision = "fp16" | "fp8" | "awq" | "gptq" | "gguf";
+export type { Precision };
 
 const BYTES_PER_PARAM: Record<Precision, number> = {
   fp16: 2, fp8: 1, awq: 0.5, gptq: 0.5, gguf: 0.5,
@@ -36,7 +37,8 @@ export function advise(
   const recommendedTP = Math.min(cards, Math.max(1, Math.ceil(requiredGB / gpu.memory)));
   // Would the model fit on the same hardware if quantized to AWQ (0.5 B/param)?
   const quantRequiredGB = size.paramsB * BYTES_PER_PARAM.awq * OVERHEAD;
-  const suggestQuantization = !fits && quantRequiredGB <= availableGB;
+  // Only suggest quantization to a user still on full precision — don't re-suggest if they already picked one.
+  const suggestQuantization = !fits && precision === "fp16" && quantRequiredGB <= availableGB;
 
   return { knownSize: true, totalAvailableGB: availableGB, requiredGB, fits, recommendedTP, suggestQuantization };
 }

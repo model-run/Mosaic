@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import type { GPUInfo } from "@/types";
-import type { ModelEntry, EngineId, EngineRecipe } from "@/lib/recipes/types";
+import type { ModelEntry, EngineId, EngineRecipe, Precision } from "@/lib/recipes/types";
 import { engineName } from "@/lib/recipes/engines";
 import { getModelsForScenario, type ScenarioId } from "@/lib/recipes/scenarios";
 import { advise } from "@/lib/fit-advisor";
-import { buildCommand } from "@/lib/command-builder";
+import { resolveVariant, availablePrecisions } from "@/lib/quant-resolver";
 import { AuroraBackground } from "@/components/AuroraBackground";
 import { Hero } from "@/components/Hero";
 import { StepBar } from "@/components/StepBar";
@@ -23,11 +23,17 @@ export default function Home() {
   const [engineId, setEngineId] = useState<EngineId | null>(null);
   const [gpu, setGpu] = useState<GPUInfo | null>(null);
   const [count, setCount] = useState(1);
+  const [precision, setPrecision] = useState<Precision>("fp16");
 
   const models = scenario ? getModelsForScenario(scenario) : [];
   const recipe: EngineRecipe | undefined = model && engineId ? model.engines[engineId] : undefined;
-  const fit = model && gpu ? advise(model.id, gpu, count) : null;
-  const command = recipe ? buildCommand(recipe, fit ? { tp: fit.recommendedTP } : {}) : null;
+  const fit = model && gpu ? advise(model.id, gpu, count, precision) : null;
+  const precisions: Precision[] =
+    recipe && engineId ? availablePrecisions(recipe, engineId) : ["fp16"];
+  const resolved =
+    recipe && engineId
+      ? resolveVariant(recipe, engineId, precision, fit ? { tp: fit.recommendedTP } : {})
+      : null;
 
   return (
     <main className="relative min-h-screen text-slate-100">
@@ -56,6 +62,7 @@ export default function Home() {
                   onSelect={(m) => {
                     setModel(m);
                     setEngineId(null);
+                    setPrecision("fp16");
                     setStep(2);
                   }}
                 />
@@ -66,6 +73,7 @@ export default function Home() {
                   selected={engineId}
                   onSelect={(id) => {
                     setEngineId(id);
+                    setPrecision("fp16");
                     setStep(3);
                   }}
                 />
@@ -80,8 +88,23 @@ export default function Home() {
                   onNext={() => setStep(4)}
                 />
               )}
-              {step === 4 && recipe && engineId && (
-                <StepRecipe engineName={engineName(engineId)} recipe={recipe} command={command} />
+              {step === 4 && recipe && engineId && resolved && (
+                <StepRecipe
+                  engineName={engineName(engineId)}
+                  recipe={{
+                    ...recipe,
+                    command: resolved.command ?? undefined,
+                    image: resolved.image,
+                    params: resolved.params,
+                    resource: resolved.resource,
+                    notes: resolved.notes,
+                  }}
+                  command={resolved.command}
+                  precisions={precisions}
+                  precision={precision}
+                  onPrecisionChange={setPrecision}
+                  computed={resolved.computed}
+                />
               )}
 
               {step > 0 && (

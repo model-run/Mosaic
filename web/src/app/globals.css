@@ -122,6 +122,22 @@ body {
       0 0 0 1px #22d3ee,
       0 18px 50px -22px rgba(34, 211, 238, 0.6);
   }
+  .quant-chip {
+    @apply cursor-pointer rounded-full border px-3 py-1 text-xs font-medium transition-all duration-200;
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgb(203, 213, 225);
+  }
+  .quant-chip:hover {
+    border-color: rgba(124, 58, 237, 0.55);
+    color: rgb(241, 245, 249);
+  }
+  .quant-chip.is-selected {
+    border-color: #22d3ee;
+    color: #67e8f9;
+    background: rgba(34, 211, 238, 0.12);
+    box-shadow: 0 0 0 1px #22d3ee;
+  }
   .option-ico {
     @apply mb-3.5 flex h-10 w-10 items-center justify-center rounded-xl text-xl;
     background: linear-gradient(135deg, rgba(124, 58, 237, 0.5), rgba(34, 211, 238, 0.4));
